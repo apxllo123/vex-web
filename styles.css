@@ -35,3 +35,4 @@ article h3{letter-spacing:-.035em}
 .cta:before{content:"";position:absolute;width:520px;height:260px;left:50%;top:8%;transform:translateX(-50%);border-radius:50%;background:rgba(118,87,255,.07);filter:blur(80px);pointer-events:none}
 .cta>*{position:relative}
 footer{background:rgba(8,7,13,.72)}
+@media(max-width:620px){.nav{height:68px}.brand>img{width:32px;height:32px}.hero{min-height:700px}.hero-copy>p{font-size:17px}.actions .button{width:100%}.statement:before,.section:before{left:20px;right:20px}}
