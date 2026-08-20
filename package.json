@@ -1,0 +1,14 @@
+{
+  "name": "vex-web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The public-facing VEX website and interactive experiences.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}
