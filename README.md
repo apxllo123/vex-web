@@ -2,111 +2,132 @@
 
 The public-facing website for **VEX**, the computer-native AI companion.
 
-This repository is intentionally lightweight: it is a static HTML/CSS site that can be deployed directly with GitHub Pages.
+This repository is intentionally lightweight: it is a static HTML/CSS site designed for GitHub Pages.
 
 ## Current site
 
 The site currently includes:
 
 - A professional VEX landing page with the preferred right-side mascot hero
-- VEX branding and purple/dark visual system
+- VEX dark/purple visual system
 - Responsive desktop and mobile layouts
 - Download-for-Mac links pointing to the VEX releases page
-- GitHub links pointing to the main VEX repository
+- Working GitHub links with the official GitHub mark embedded in the page
 - A compact **A glimpse of VEX** desktop preview
 - macOS-style preview window controls
 - MCP / ChatWise positioning and integration information
-- The VEX icon wired through `assets/vex-icon.png`
+- The VEX web icon wired to `assets/vex-icon.png`
 - GitHub Pages deployment configuration
 - `.nojekyll` for static GitHub Pages hosting
 
 ## Commit workflow
 
-Keep the website changes controlled and easy to undo.
+Keep website changes controlled, reviewable, and easy to undo.
 
-### 1. Never make experimental changes directly on `main`
+### 1. Do not experiment directly on `main`
 
-`main` is the release/published website branch. Do not use it as the working branch for redesigns or experiments.
-
-### 2. Work on a separate branch first
-
-Use a focused branch name such as:
-
-```text
-fix/homepage-hero
-fix/icon-wiring
-feat/preview
-chore/docs
-```
-
-Keep each branch focused on one logical change.
-
-### 3. Make small, descriptive commits
-
-Use conventional commit prefixes:
-
-- `feat:` — new website functionality or sections
-- `fix:` — visual or functional correction
-- `docs:` — README/documentation changes
-- `chore:` — maintenance or deployment tooling
+`main` is the published website branch. Use a development/fix/feature branch for changes first.
 
 Examples:
 
 ```text
-feat: add VEX landing page
-fix: restore preferred landing hero sizing
-docs: document VEX web workflow
+fix/homepage-hero
+fix/icon-wiring
+fix/github-mark
+feat/preview
+chore/docs
 ```
 
-Do not combine unrelated homepage, icon, deployment, and documentation changes into one commit unless they are genuinely part of the same change.
+### 2. Keep commits focused
 
-### 4. Verify before merging
+Use conventional commit prefixes:
 
-Before a change reaches `main`:
+- `feat:` — new website functionality or sections
+- `fix:` — visual or functional corrections
+- `docs:` — README/documentation changes
+- `chore:` — maintenance or deployment tooling
 
-1. Check the changed files and the diff.
-2. Verify the page visually at desktop and mobile sizes.
-3. Check that images and links load from the deployed site.
-4. Check GitHub Actions / GitHub Pages deployment status.
-5. Confirm that unrelated pages and sections were not changed.
+Good examples:
 
-### 5. Merge only the verified result
+```text
+fix: restore VEX homepage hero sizing
+fix: repair VEX icon and GitHub links
+docs: update VEX web workflow
+```
 
-After verification, merge the focused branch into `main`. Do not reset `main` to an older commit just to recover from a styling mistake unless the exact previous state has been identified and intentionally restored.
+Do not mix unrelated redesigns, asset changes, deployment changes, and documentation unless they are genuinely one logical change.
 
-## Current icon rule
+### 3. Verify before pushing to `main`
 
-The website's web asset is:
+Before merging a website change:
+
+1. Inspect the exact diff.
+2. Check that only the intended files changed.
+3. Test the page at desktop and mobile sizes.
+4. Confirm local images use paths that work on GitHub Pages.
+5. Confirm GitHub and release links open correctly.
+6. Check the GitHub Pages deployment/action status.
+7. Make sure unrelated sections were not accidentally redesigned.
+
+### 4. Merge the verified result
+
+Once the branch is visually and technically verified, merge it into `main`. Do not reset the published branch to an older commit just because a later styling change was wrong; identify the exact intended file/state and restore only that part.
+
+## Current asset rule
+
+The website asset is:
 
 ```text
 assets/vex-icon.png
 ```
 
-Keep the web icon in the website repository rather than depending on a moving path in the VEX application repository. The current homepage references the stable `main` asset URL.
+Use the repository-relative path `assets/vex-icon.png` from `index.html`. This keeps the website independent of a moving raw URL and makes the same asset work on GitHub Pages.
 
-The VEX application repository has its own application icon at `resources/icon.png`; that is a separate application asset and should not be confused with the web asset.
+The main VEX Electron repository has a separate application asset at `resources/icon.png`. That is intentionally separate from the web asset.
 
-## Current homepage sizing note
+## Current homepage layout
 
-The homepage layout is intended to have the large VEX mascot on the **right side** of the hero on desktop, with the text and actions on the left.
+The homepage is intentionally composed as:
 
-The desired desktop hero treatment is a large but controlled mascot rather than an image that expands far beyond its hero column. The current `styles.css` should be checked before the next homepage polish because the present `.hero-icon` rules use an unusually large `1050px` width / `155%` sizing treatment. Do not change that sizing as part of documentation-only work; it is tracked here as a visual follow-up.
+- Left: VEX headline, description, download/GitHub actions, and platform metadata.
+- Right: the large VEX mascot.
+- Top-right of the hero art: a small, unobtrusive VEX badge.
 
-## What is still needed
+The mascot should be large enough to feel like the main visual but should stay contained inside the right hero column. It should not use the previous oversized `1050px / 155%` treatment.
+
+The compact badge should remain out of the way and should not cover the hero copy.
+
+## What we have completed
+
+- [x] Built the VEX static website structure.
+- [x] Established the dark/purple VEX visual language.
+- [x] Added the preferred right-side homepage mascot composition.
+- [x] Added Download for Mac and GitHub actions.
+- [x] Added a compact VEX desktop preview.
+- [x] Added macOS-style preview window controls.
+- [x] Added MCP / ChatWise positioning.
+- [x] Wired the web icon through `assets/vex-icon.png`.
+- [x] Replaced incomplete GitHub SVG paths with the complete GitHub mark.
+- [x] Restored repository-relative icon paths so the icon is not dependent on a raw GitHub URL.
+- [x] Restored a controlled homepage mascot size and right-side placement.
+- [x] Moved the small VEX badge to the top-right of the hero art and reduced it so it does not interfere with the mascot.
+- [x] Preserved the existing visual polish and mobile layout rules.
+
+## What still needs work
 
 ### Website
 
-- [ ] Finalize the homepage mascot size/position without disturbing the preferred hero composition.
-- [ ] Verify the small VEX icon renders reliably in the navigation and other compact locations.
-- [ ] Keep the GitHub mark consistent everywhere on the site.
-- [ ] Finish visual polish for the **A glimpse of VEX** section while keeping the preview compact.
+- [ ] Verify the deployed GitHub Pages result at desktop and mobile sizes.
+- [ ] Confirm the small icon is visible in the navigation, preview, and footer after deployment.
+- [ ] Keep the GitHub mark consistent everywhere.
+- [ ] Continue refining **A glimpse of VEX** without turning it into a large dashboard.
 - [ ] Add the eventual simplified VEX mascot/icon when the final simplified asset is ready.
-- [ ] Continue adding secondary pages only when their content and design are ready.
+- [ ] Add secondary pages only when their content and design are ready.
 
 ### VEX application integration
 
 - [ ] Connect the website's visual language to the actual VEX Electron UI where appropriate.
-- [ ] Add an accurate, maintained application preview once the real UI is stable.
+- [ ] Add an accurate maintained application preview once the real UI is stable.
 - [ ] Keep website claims synchronized with what the VEX application actually supports.
 
 ### Deployment
@@ -117,7 +138,7 @@ The desired desktop hero treatment is a large but controlled mascot rather than 
 
 ## GitHub Pages
 
-The repository already contains GitHub Pages deployment workflows under `.github/workflows/` and is configured as a static site. Changes pushed to `main` are intended to trigger the Pages deployment.
+This is a static site and is intended to deploy directly through GitHub Pages. Keep asset references repository-relative so the site works correctly when hosted from the repository's Pages URL.
 
 ## Repository structure
 
