@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="VEX — an interactive 3D experience." />
+  <meta name="theme-color" content="#08070d" />
+  <title>VEX — 3D Experience</title>
+  <link rel="icon" type="image/png" href="assets/vex-icon.png" />
+  <style>
+    :root{--bg:#08070d;--text:#f6f3fb;--muted:#a39daa;--accent:#7657ff;--accent2:#a992ff;--line:#292530}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+    body{overflow:hidden}
+    canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+    .nav{position:fixed;top:0;left:0;right:0;height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,5vw,76px);border-bottom:1px solid rgba(41,37,48,.8);background:rgba(8,7,13,.55);backdrop-filter:blur(18px);z-index:5}
+    .brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;font-weight:700;letter-spacing:.12em}
+    .brand img{width:34px;height:34px;object-fit:contain;filter:brightness(1.12) saturate(1.15) drop-shadow(0 0 14px rgba(118,87,255,.25))}
+    .back{color:var(--muted);text-decoration:none;font-size:14px;border:1px solid var(--line);border-radius:999px;padding:9px 15px;transition:.18s ease}
+    .back:hover{color:var(--text);border-color:#4b405d;background:rgba(118,87,255,.06)}
+    .copy{position:fixed;z-index:4;left:clamp(24px,8vw,120px);top:50%;transform:translateY(-40%);max-width:410px;pointer-events:none}
+    .eyebrow{font-size:11px;letter-spacing:.2em;color:var(--accent2);font-weight:700;margin-bottom:18px}
+    h1{font-size:clamp(58px,8vw,112px);line-height:.92;letter-spacing:-.07em;margin:0;font-weight:700}
+    h1 em{font-style:normal;color:var(--accent2)}
+    .copy p{font-size:17px;line-height:1.7;color:var(--muted);margin:24px 0 0;max-width:380px}
+    .hint{margin-top:26px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#706a78}
+    .status{position:fixed;z-index:4;right:clamp(20px,5vw,76px);bottom:28px;color:#706a78;font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+    .dot{width:6px;height:6px;border-radius:50%;background:#8e79ff;box-shadow:0 0 14px #8e79ff}
+    @media(max-width:800px){body{overflow:auto}.copy{top:105px;left:20px;right:20px;transform:none;max-width:none}.copy p{font-size:15px}.hint{display:none}.nav{height:64px}.brand img{width:30px;height:30px}.status{bottom:18px;right:20px}.back{padding:8px 12px}.copy h1{font-size:58px}}
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="index.html" aria-label="VEX home"><img src="assets/vex-icon.png" alt="" /><span>VEX</span></a>
+    <a class="back" href="index.html">Back to VEX</a>
+  </header>
+
+  <main>
+    <section class="copy" aria-label="VEX 3D experience introduction">
+      <div class="eyebrow">INTERACTIVE VEX EXPERIENCE</div>
+      <h1>VEX<br><em>in motion.</em></h1>
+      <p>A quiet 3D space for VEX — built to feel alive without getting in your way.</p>
+      <div class="hint">Move your pointer · Drag to explore</div>
+    </section>
+  </main>
+
+  <div class="status"><span class="dot"></span> Live 3D preview</div>
+
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.178.0/build/three.module.js';
+    import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.178.0/examples/jsm/controls/OrbitControls.js';
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x08070d);
+
+    const camera = new THREE.PerspectiveCamera(42, innerWidth / innerHeight, .1, 100);
+    camera.position.set(0, .5, 7.4);
+
+    const renderer = new THREE.WebGLRenderer({antialias:true,alpha:false});
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    renderer.setSize(innerWidth,innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    document.body.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.enablePan = false;
+    controls.minDistance = 5.2;
+    controls.maxDistance = 9;
+    controls.minPolarAngle = Math.PI * .32;
+    controls.maxPolarAngle = Math.PI * .68;
+    controls.target.set(1.1,0,.2);
+
+    scene.add(new THREE.AmbientLight(0x665f86,.65));
+
+    const key = new THREE.PointLight(0x7657ff,28,18,2);
+    key.position.set(2.8,2.8,4);
+    scene.add(key);
+
+    const rim = new THREE.PointLight(0x332080,20,15,2);
+    rim.position.set(-4,-1,-3);
+    scene.add(rim);
+
+    const floor = new THREE.Mesh(
+      new THREE.CircleGeometry(8,64),
+      new THREE.MeshBasicMaterial({color:0x0b0912,transparent:true,opacity:.42})
+    );
+    floor.rotation.x = -Math.PI/2;
+    floor.position.y = -2.15;
+    scene.add(floor);
+
+    const group = new THREE.Group();
+    group.position.set(1.45,0,.1);
+    group.rotation.y = -.2;
+    scene.add(group);
+
+    // A stylized VEX serpent made from smooth, connected segments.
+    const material = new THREE.MeshStandardMaterial({
+      color:0x09090f,
+      metalness:.78,
+      roughness:.23,
+      emissive:0x17102d,
+      emissiveIntensity:.55
+    });
+
+    const segments = [];
+    const count = 34;
+    for(let i=0;i<count;i++){
+      const t=i/(count-1);
+      const y=-1.65+t*3.25;
+      const x=Math.sin(t*Math.PI*1.65)*.72 + t*.55;
+      const z=Math.cos(t*Math.PI*1.1)*.25;
+      const radius=.24 + t*.02;
+      const mesh=new THREE.Mesh(new THREE.SphereGeometry(radius,28,20),material);
+      mesh.scale.set(1.2,.95,1.08);
+      mesh.position.set(x,y,z);
+      group.add(mesh);
+      segments.push(mesh);
+    }
+
+    const head = new THREE.Mesh(new THREE.SphereGeometry(.55,40,28),material);
+    head.scale.set(1.25,.92,1.15);
+    head.position.set(.98,1.38,.05);
+    head.rotation.z=-.12;
+    group.add(head);
+
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(.29,.46,1.25,32),material);
+    neck.position.set(.5,.82,0);
+    neck.rotation.z=-.18;
+    group.add(neck);
+
+    const eyeMaterial = new THREE.MeshBasicMaterial({color:0x9f86ff});
+    for(const side of [-1,1]){
+      const eye=new THREE.Mesh(new THREE.SphereGeometry(.075,16,12),eyeMaterial);
+      eye.position.set(.91 + side*.27,1.51,.48);
+      eye.scale.z=.55;
+      group.add(eye);
+    }
+
+    const tongueMaterial = new THREE.LineBasicMaterial({color:0x7657ff,transparent:true,opacity:.8});
+    const tongueGeometry = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(1.28,1.25,.5),new THREE.Vector3(1.78,1.08,.55),new THREE.Vector3(2.05,1.18,.57)
+    ]);
+    group.add(new THREE.Line(tongueGeometry,tongueMaterial));
+
+    const particles = new THREE.Points(
+      new THREE.BufferGeometry(),
+      new THREE.PointsMaterial({color:0x7657ff,size:.025,transparent:true,opacity:.5})
+    );
+    const positions=[];
+    for(let i=0;i<260;i++){
+      positions.push((Math.random()-.5)*12,(Math.random()-.5)*7,(Math.random()-.5)*5-1);
+    }
+    particles.geometry.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+    scene.add(particles);
+
+    const pointer={x:0,y:0,targetX:0,targetY:0};
+    addEventListener('pointermove',e=>{
+      pointer.targetX=(e.clientX/innerWidth-.5)*2;
+      pointer.targetY=(e.clientY/innerHeight-.5)*2;
+    });
+
+    const clock=new THREE.Clock();
+    function animate(){
+      requestAnimationFrame(animate);
+      const time=clock.getElapsedTime();
+      pointer.x += (pointer.targetX-pointer.x)*.035;
+      pointer.y += (pointer.targetY-pointer.y)*.035;
+
+      group.rotation.y += (pointer.x*.12 + Math.sin(time*.22)*.018 - group.rotation.y)*.018;
+      group.rotation.x += (-pointer.y*.045 - group.rotation.x)*.018;
+      group.position.y = Math.sin(time*.65)*.055;
+
+      segments.forEach((mesh,i)=>{
+        mesh.position.x += Math.sin(time*1.15+i*.18)*.0022;
+        mesh.position.z += Math.cos(time*.9+i*.15)*.0018;
+      });
+      key.position.x=2.8+Math.sin(time*.45)*.8;
+      key.position.y=2.8+Math.cos(time*.6)*.35;
+      particles.rotation.y=time*.012;
+      controls.update();
+      renderer.render(scene,camera);
+    }
+    animate();
+
+    addEventListener('resize',()=>{
+      camera.aspect=innerWidth/innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth,innerHeight);
+    });
+  </script>
+</body>
+</html>
