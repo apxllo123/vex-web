@@ -2,7 +2,7 @@
 
 The public-facing website for **VEX**, the computer-native AI companion.
 
-This repository is intentionally lightweight: it is a static HTML/CSS site designed for GitHub Pages.
+This repository is intentionally lightweight: it is a static HTML/CSS/JavaScript site designed for GitHub Pages.
 
 ## Current site
 
@@ -35,6 +35,7 @@ fix/homepage-hero
 fix/icon-wiring
 fix/github-mark
 feat/preview
+feat/3d-page
 chore/docs
 ```
 
@@ -42,7 +43,7 @@ chore/docs
 
 Use conventional commit prefixes:
 
-- `feat:` — new website functionality or sections
+- `feat:` — new website functionality or pages
 - `fix:` — visual or functional corrections
 - `docs:` — README/documentation changes
 - `chore:` — maintenance or deployment tooling
@@ -53,9 +54,10 @@ Good examples:
 fix: restore VEX homepage hero sizing
 fix: repair VEX icon and GitHub links
 docs: update VEX web workflow
+feat: add interactive VEX 3D page
 ```
 
-Do not mix unrelated redesigns, asset changes, deployment changes, and documentation unless they are genuinely one logical change.
+Do not mix unrelated homepage redesigns, asset changes, deployment changes, documentation, and new experiments unless they are genuinely one logical change.
 
 ### 3. Verify before pushing to `main`
 
@@ -81,7 +83,7 @@ The website asset is:
 assets/vex-icon.png
 ```
 
-Use the repository-relative path `assets/vex-icon.png` from `index.html`. This keeps the website independent of a moving raw URL and makes the same asset work on GitHub Pages.
+Use the repository-relative path `assets/vex-icon.png` from HTML pages. This keeps the website independent of a moving raw URL and makes the same asset work on GitHub Pages.
 
 The main VEX Electron repository has a separate application asset at `resources/icon.png`. That is intentionally separate from the web asset.
 
@@ -93,9 +95,7 @@ The homepage is intentionally composed as:
 - Right: the large VEX mascot.
 - Top-right of the hero art: a small, unobtrusive VEX badge.
 
-The mascot should be large enough to feel like the main visual but should stay contained inside the right hero column. It should not use the previous oversized `1050px / 155%` treatment.
-
-The compact badge should remain out of the way and should not cover the hero copy.
+The homepage text and hero composition are currently considered protected while separate design experiments are developed. New experimental pages should not modify `index.html` or the homepage styling unless that change is explicitly requested.
 
 ## What we have completed
 
@@ -112,6 +112,36 @@ The compact badge should remain out of the way and should not cover the hero cop
 - [x] Restored a controlled homepage mascot size and right-side placement.
 - [x] Moved the small VEX badge to the top-right of the hero art and reduced it so it does not interfere with the mascot.
 - [x] Preserved the existing visual polish and mobile layout rules.
+- [x] Documented the commit/verification workflow in this README.
+
+## Current work: separate interactive pages
+
+The next phase is to make the site feel more alive **without changing the protected homepage**.
+
+Each experiment should be its own page so it can be reviewed independently and kept or discarded without disturbing the main landing page.
+
+Planned pages:
+
+```text
+index.html          # Protected homepage
+features.html       # Interactive feature presentation
+glimpse.html        # Interactive VEX desktop preview
+integrations.html   # MCP / tool connection experience
+3d.html             # Separate interactive 3D VEX experience
+```
+
+The first experiment is `3d.html`.
+
+### 3D page goals
+
+- Keep the VEX dark/purple visual language.
+- Use client-side JavaScript so it remains compatible with GitHub Pages.
+- Give VEX a subtle idle animation so the page feels alive without being distracting.
+- Add tasteful pointer/parallax interaction.
+- Keep the 3D experience isolated from the homepage.
+- Avoid changing `index.html` while this experiment is being developed.
+- Avoid changing the existing homepage copy, layout, or hero sizing as part of the 3D experiment.
+- Prefer a maintainable implementation that can be removed or replaced cleanly.
 
 ## What still needs work
 
@@ -122,7 +152,9 @@ The compact badge should remain out of the way and should not cover the hero cop
 - [ ] Keep the GitHub mark consistent everywhere.
 - [ ] Continue refining **A glimpse of VEX** without turning it into a large dashboard.
 - [ ] Add the eventual simplified VEX mascot/icon when the final simplified asset is ready.
-- [ ] Add secondary pages only when their content and design are ready.
+- [ ] Build and review the separate interactive pages.
+- [ ] Build the separate 3D VEX experience first.
+- [ ] Keep experimental pages independent so they can be selected or removed without changing the homepage.
 
 ### VEX application integration
 
@@ -153,6 +185,8 @@ vex-web/
 ├── .nojekyll
 └── README.md
 ```
+
+As separate pages are added, keep their JavaScript and page-specific styling isolated where practical rather than growing the homepage into a single application bundle.
 
 ## Relationship to VEX
 
