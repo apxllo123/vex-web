@@ -11,8 +11,8 @@ The site currently includes:
 - A professional VEX landing page with the preferred right-side mascot hero
 - VEX dark/purple visual system
 - Responsive desktop and mobile layouts
-- Download-for-Mac links pointing to the VEX releases page
-- Working GitHub links with the official GitHub mark embedded in the page
+- GitHub links pointing to the public site repository (`apxllo123/vex-web`)
+- Download-for-Mac call to action intentionally omitted while the VEX application has no public release
 - A compact **A glimpse of VEX** desktop preview
 - macOS-style preview window controls
 - MCP / ChatWise positioning and integration information
@@ -91,7 +91,7 @@ The main VEX Electron repository has a separate application asset at `resources/
 
 The homepage is intentionally composed as:
 
-- Left: VEX headline, description, download/GitHub actions, and platform metadata.
+- Left: VEX headline, description, the GitHub action, and platform metadata.
 - Right: the large VEX mascot.
 - Top-right of the hero art: a small, unobtrusive VEX badge.
 
@@ -102,7 +102,7 @@ The homepage text and hero composition are currently considered protected while 
 - [x] Built the VEX static website structure.
 - [x] Established the dark/purple VEX visual language.
 - [x] Added the preferred right-side homepage mascot composition.
-- [x] Added Download for Mac and GitHub actions.
+- [x] Added the GitHub action and the download action (download removed until the VEX application has a public release).
 - [x] Added a compact VEX desktop preview.
 - [x] Added macOS-style preview window controls.
 - [x] Added MCP / ChatWise positioning.
