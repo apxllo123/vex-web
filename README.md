@@ -11,8 +11,8 @@ The site currently includes:
 - A professional VEX landing page with the preferred right-side mascot hero
 - VEX dark/purple visual system
 - Responsive desktop and mobile layouts
-- Download-for-Mac links pointing to the VEX releases page
-- Working GitHub links with the official GitHub mark embedded in the page
+- GitHub links pointing to this public site repository (`apxllo123/vex-web`)
+- No download call to action while the VEX application repository is private and has no public release, so no link on the page ends at a 404
 - A compact **A glimpse of VEX** desktop preview
 - macOS-style preview window controls
 - MCP / ChatWise positioning and integration information
@@ -67,7 +67,7 @@ Before merging a website change:
 2. Check that only the intended files changed.
 3. Test the page at desktop and mobile sizes.
 4. Confirm local images use paths that work on GitHub Pages.
-5. Confirm GitHub and release links open correctly.
+5. Confirm every link opens for a visitor who is not signed in. The `Check links` job runs `scripts/check-links.sh`, which fails the deploy when a GitHub link points at a repository that returns 404, or when it cannot check one.
 6. Check the GitHub Pages deployment/action status.
 7. Make sure unrelated sections were not accidentally redesigned.
 
@@ -91,7 +91,7 @@ The main VEX Electron repository has a separate application asset at `resources/
 
 The homepage is intentionally composed as:
 
-- Left: VEX headline, description, download/GitHub actions, and platform metadata.
+- Left: VEX headline, description, the GitHub action, and platform metadata.
 - Right: the large VEX mascot.
 - Top-right of the hero art: a small, unobtrusive VEX badge.
 
@@ -102,7 +102,7 @@ The homepage text and hero composition are currently considered protected while 
 - [x] Built the VEX static website structure.
 - [x] Established the dark/purple VEX visual language.
 - [x] Added the preferred right-side homepage mascot composition.
-- [x] Added Download for Mac and GitHub actions.
+- [x] Added the GitHub action. The download action stays out until VEX has a public release.
 - [x] Added a compact VEX desktop preview.
 - [x] Added macOS-style preview window controls.
 - [x] Added MCP / ChatWise positioning.
@@ -180,6 +180,8 @@ vex-web/
 │   └── vex-icon.png
 ├── .github/
 │   └── workflows/
+├── scripts/
+│   └── check-links.sh
 ├── index.html
 ├── styles.css
 ├── .nojekyll
